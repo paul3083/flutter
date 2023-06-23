@@ -53,7 +53,7 @@ class _TodoAppState extends State<TodoApp> {
             title: Text(todo.title),
             subtitle: Text(todo.description),
             trailing: IconButton(
-              icon: Icon(Icons.check),
+              icon: const Icon(Icons.check),
               onPressed: () {
                 setState(() {
                   todos.removeAt(index);
