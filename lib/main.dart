@@ -45,6 +45,27 @@ class _TodoAppState extends State<TodoApp> {
       appBar: AppBar(
         title: const Text("Todo List"),
       ),
+      body: ListView.builder(
+        itemCount: todos.length,
+        itemBuilder: (_, index) {
+          final todo = todos[index];
+          return ListTile(
+            title: Text(todo.title),
+            subtitle: Text(todo.description),
+            trailing: IconButton(
+              icon: Icon(Icons.check),
+              onPressed: () {
+                setState(() {
+                  todos.removeAt(index);
+                });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("삭제되었습니다.")),
+                );
+              },
+            ),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
@@ -89,26 +110,6 @@ class _TodoAppState extends State<TodoApp> {
           );
         },
         child: const Icon(Icons.add),
-      ),
-      body: ListView.builder(
-        itemBuilder: (_, index) {
-          return Dismissible(
-            key: Key(index.toString()),
-            onDismissed: (direction) {
-              setState(() {
-                todos.removeAt(index);
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("삭제되었습니다.")),
-              );
-            },
-            child: ListTile(
-              title: Text(todos[index].title),
-              subtitle: Text(todos[index].description),
-            ),
-          );
-        },
-        itemCount: todos.length,
       ),
     );
   }
