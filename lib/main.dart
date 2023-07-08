@@ -112,6 +112,18 @@ class _TodoAppState extends State<TodoApp> {
         },
         child: const Icon(Icons.add),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.edit),
+            label: ""
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month),
+            label: ""
+          ),
+        ],
+      )
     );
   }
 }
