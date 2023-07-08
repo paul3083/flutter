@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'calendar.dart'; // Import the calendar.dart file
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const TodoApp(),
+      routes: {
+        '/calendar': (context) => const Calendar(), // Add a route for the calendar screen
+      },
     );
   }
 }
@@ -40,6 +44,18 @@ class _TodoAppState extends State<TodoApp> {
 
   List<Todo> todos = [];
 
+  int _currentIndex = 0;
+
+  void _onBottomNavigationBarItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+      if (_currentIndex == 1) {
+        Navigator.pushNamed(context, '/calendar');// Navigate to the calendar screen
+        _currentIndex = 0;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +69,7 @@ class _TodoAppState extends State<TodoApp> {
           return ListTile(
             title: Text(todo.title),
             subtitle: Text(todo.description),
+
             trailing: IconButton(
               icon: const Icon(Icons.check),
               onPressed: () {
@@ -81,7 +98,7 @@ class _TodoAppState extends State<TodoApp> {
                         title = value;
                       });
                     },
-                    decoration: const InputDecoration(hintText: "글 제목"),
+                    decoration: const InputDecoration(hintText: "할일"),
                   ),
                   TextField(
                     onChanged: (value) {
@@ -89,7 +106,7 @@ class _TodoAppState extends State<TodoApp> {
                         description = value;
                       });
                     },
-                    decoration: const InputDecoration(hintText: "글 내용"),
+                    decoration: const InputDecoration(hintText: "기간"),
                   ),
                   Center(
                     child: ElevatedButton(
@@ -113,17 +130,23 @@ class _TodoAppState extends State<TodoApp> {
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        unselectedItemColor: Colors.black, // Set the color to black
+        selectedItemColor: Colors.blueAccent,
+        currentIndex: _currentIndex,
+        onTap: _onBottomNavigationBarItemTapped,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.edit),
-            label: ""
+            icon: Icon(Icons.edit),
+            label: "",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month),
-            label: ""
+            icon: Icon(Icons.calendar_month),
+            label: "",
           ),
         ],
-      )
+      ),
     );
   }
 }
